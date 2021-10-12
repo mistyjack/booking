@@ -34,13 +34,6 @@ const logo = (
   </svg>
 );
 
-const custom = (
-  <svg width="54" height="72" style={{ position: "absolute", bottom: -20, right: -20 }} viewBox="0 0 26 30" fill="#000" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 0L1.49756 2.67617L2.99998 5.35233V6.70122C2.99998 7.26759 3.5961 7.79071 4.60903 8.22305C4.53866 8.6047 4.50139 8.99063 4.49756 9.37739C4.49756 11.1547 5.28901 12.8591 6.69781 14.1159C8.1066 15.3726 10.0173 16.0786 12.0097 16.0786C14.002 16.0786 15.9127 15.3726 17.3215 14.1159C18.7303 12.8591 19.5218 11.1547 19.5218 9.37739C19.518 8.99063 19.4807 8.6047 19.4103 8.22305C20.4232 7.79071 21.0194 7.26759 21.0194 6.70122V5.36098L22.5218 2.68481L12 0ZM12 13.4024C10.8071 13.4013 9.66337 12.9784 8.81941 12.2263C7.97546 11.4743 7.50012 10.4545 7.49756 9.39036L7.53633 9.03585C9.00862 9.2776 10.503 9.39628 12 9.39036C13.497 9.39628 14.9913 9.2776 16.4636 9.03585L16.5024 9.39036C16.4935 10.4507 16.0153 11.465 15.172 12.2124C14.3288 12.9598 13.1887 13.3797 12 13.3808V13.4024Z"></path>
-    <path d="M12 17.3973C4.93376 17.3973 0 19.2702 0 24H12H24C24 19.2702 19.0662 17.3973 12 17.3973Z"></path>
-  </svg>
-);
-
 const useStyle = makeStyles(theme => ({
   main: {
     marginTop: "64px",
@@ -124,7 +117,11 @@ const useStyle = makeStyles(theme => ({
     position: "absolute",
     fontSize: 68,
     bottom: -15,
-    right: -20
+    right: -20,
+    opacity: "50%"
+  },
+  service_icon_active: {
+    opacity: "100%"
   },
   isActive: {
     backgroundColor: theme.palette.primary.main,
@@ -188,7 +185,7 @@ function App() {
           <Toolbar className={classes.toolbar}>
             <div className={classes.logo_div}>
               <div style={{ marginRight: "5rem" }}>
-                <a href="">{logo}</a>
+                <a href="/">{logo}</a>
               </div>
               <Hidden smDown>
                 <TextField
@@ -253,7 +250,7 @@ function App() {
 
             <Grid spacing={4} container>
               {navButtons.map((item, index) => (
-                <Grid xs={12} sm={3} key={item} item>
+                <Grid xs={12} sm={3} key={`item-${index}`} item>
                   <Button
                     onClick={e => setSelectedService(index)}
                     variant="outlined"
@@ -262,7 +259,22 @@ function App() {
                     })}
                   >
                     {item}
-                    <span className={classes.icon}>{index === 0 ? <LocalAirportIcon className={classes.service_icon} /> : index === 1 ? <DirectionsBoatIcon className={classes.service_icon} /> : index === 2 ? <LocalShippingIcon className={classes.service_icon} /> : <span>{custom}</span>}</span>
+                    <span className={classes.icon}>
+                      {index === 0 ? (
+                        <LocalAirportIcon className={clsx(classes.service_icon, { [classes.service_icon_active]: index === selectedService })} />
+                      ) : index === 1 ? (
+                        <DirectionsBoatIcon className={clsx(classes.service_icon, { [classes.service_icon_active]: index === selectedService })} />
+                      ) : index === 2 ? (
+                        <LocalShippingIcon className={clsx(classes.service_icon, { [classes.service_icon_active]: index === selectedService })} />
+                      ) : (
+                        <span>
+                          <svg width="54" height="72" style={{ position: "absolute", bottom: -20, right: -20 }} viewBox="0 0 26 30" fill={index === selectedService ? "#fff" : "#81868B"} xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 0L1.49756 2.67617L2.99998 5.35233V6.70122C2.99998 7.26759 3.5961 7.79071 4.60903 8.22305C4.53866 8.6047 4.50139 8.99063 4.49756 9.37739C4.49756 11.1547 5.28901 12.8591 6.69781 14.1159C8.1066 15.3726 10.0173 16.0786 12.0097 16.0786C14.002 16.0786 15.9127 15.3726 17.3215 14.1159C18.7303 12.8591 19.5218 11.1547 19.5218 9.37739C19.518 8.99063 19.4807 8.6047 19.4103 8.22305C20.4232 7.79071 21.0194 7.26759 21.0194 6.70122V5.36098L22.5218 2.68481L12 0ZM12 13.4024C10.8071 13.4013 9.66337 12.9784 8.81941 12.2263C7.97546 11.4743 7.50012 10.4545 7.49756 9.39036L7.53633 9.03585C9.00862 9.2776 10.503 9.39628 12 9.39036C13.497 9.39628 14.9913 9.2776 16.4636 9.03585L16.5024 9.39036C16.4935 10.4507 16.0153 11.465 15.172 12.2124C14.3288 12.9598 13.1887 13.3797 12 13.3808V13.4024Z"></path>
+                            <path d="M12 17.3973C4.93376 17.3973 0 19.2702 0 24H12H24C24 19.2702 19.0662 17.3973 12 17.3973Z"></path>
+                          </svg>
+                        </span>
+                      )}
+                    </span>
                   </Button>
                 </Grid>
               ))}
@@ -356,7 +368,7 @@ function App() {
 
               <Grid xs={12} sm item>
                 <TextField
-                  label="Incoterms"
+                  value="Incoterms"
                   id="incoterms-input"
                   size="small"
                   style={{ width: "100%" }}
@@ -365,7 +377,9 @@ function App() {
                     classes: { input: classes.direction_input, root: classes.direction_input_root, notchedOutline: classes.direction_input }
                   }}
                   variant="outlined"
-                />
+                >
+                  <option value="Incoterms">Incoterms</option>
+                </TextField>
               </Grid>
 
               <Grid xs={12} sm item>
